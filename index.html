@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Movie Database Web Application - Portfolio project by David Mbugua. Browse movies and TV shows with real-time data from TMDB API.">
+    <meta name="author" content="David Mbugua">
+    <meta name="keywords" content="movie database, portfolio project, web development, TMDB API, JavaScript">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Movie Database - David Mbugua Portfolio">
+    <meta property="og:description" content="Interactive movie & TV show database built with vanilla JavaScript">
+    <meta property="og:type" content="website">
+    
+    <title>MovieHub - David Mbugua | Portfolio Project</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Teko:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body>
+    <!-- Portfolio Banner -->
+    <div class="portfolio-banner">
+        <div class="container">
+            <i class="fas fa-code"></i>
+            <span>Portfolio Project</span>
+            <span class="separator">•</span>
+            <span>Built by <strong>David Mbugua</strong></span>
+            <span class="separator">•</span>
+            <a href="https://github.com/Kaiz3n-ios" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-github"></i> View on GitHub
+            </a>
+        </div>
+    </div>
+
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="brand-container">
+                <i class="fas fa-film brand-icon"></i>
+                <h1 class="brand-logo">MOVIEHUB</h1>
+            </div>
+            <p class="tagline">Your Complete Movie & TV Show Database</p>
+            
+            <!-- Quick Actions -->
+            <div class="header-actions">
+                <button id="favorites-btn" class="header-action-btn" aria-label="View favorites">
+                    <i class="fas fa-heart"></i>
+                    <span>Favorites</span>
+                    <span id="favorites-count" class="badge">0</span>
+                </button>
+                <button id="view-toggle-btn" class="header-action-btn" aria-label="Toggle view mode">
+                    <i class="fas fa-th" id="view-icon"></i>
+                    <span id="view-text">Grid</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content Type Toggle -->
+    <section class="content-type-section">
+        <div class="container">
+            <div class="content-type-toggle">
+                <button class="content-type-btn active" data-content="movies" aria-label="Browse movies">
+                    <i class="fas fa-film"></i>
+                    <span>MOVIES</span>
+                </button>
+                <button class="content-type-btn" data-content="tv" aria-label="Browse TV shows">
+                    <i class="fas fa-tv"></i>
+                    <span>TV SHOWS</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Toggle -->
+    <section class="movie-type-toggle">
+        <div class="container">
+            <h2 id="category-label">Browse Movies</h2>
+            <div class="toggle-buttons" id="toggle-buttons-container">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Carousel -->
+    <section class="featured-carousel">
+        <div class="container">
+            <h2>
+                <i class="fas fa-star"></i>
+                Featured & Trending
+            </h2>
+            <div class="carousel-container">
+                <button class="carousel-nav carousel-prev" aria-label="Previous slide">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div id="carousel-track" class="carousel-track">
+                    <!-- Populated by JS -->
+                </div>
+                <button class="carousel-nav carousel-next" aria-label="Next slide">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search & Filters -->
+    <section class="filters">
+        <div class="container">
+            <!-- Search Container -->
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input 
+                    type="text" 
+                    id="search-input" 
+                    placeholder="Search any movie or TV show..."
+                    autocomplete="off"
+                    aria-label="Search movies and TV shows"
+                >
+                <button id="clear-search" class="clear-btn" aria-label="Clear search">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <p class="search-hint">
+                <kbd>/</kbd> to focus search • <kbd>ESC</kbd> to clear
+            </p>
+
+            <!-- Advanced Filters -->
+            <div class="advanced-filters">
+                <div class="filter-group">
+                    <label for="year-filter">
+                        <i class="fas fa-calendar"></i> Year
+                    </label>
+                    <select id="year-filter" aria-label="Filter by year">
+                        <option value="all">All Years</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="rating-filter">
+                        <i class="fas fa-star"></i> Rating
+                    </label>
+                    <select id="rating-filter" aria-label="Filter by rating">
+                        <option value="all">All Ratings</option>
+                        <option value="9">9+ ⭐</option>
+                        <option value="8">8+ ⭐</option>
+                        <option value="7">7+ ⭐</option>
+                        <option value="6">6+ ⭐</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="sort-filter">
+                        <i class="fas fa-sort"></i> Sort By
+                    </label>
+                    <select id="sort-filter" aria-label="Sort results">
+                        <option value="popularity.desc">Popularity</option>
+                        <option value="vote_average.desc">Highest Rated</option>
+                        <option value="release_date.desc">Newest First</option>
+                        <option value="release_date.asc">Oldest First</option>
+                        <option value="title.asc">A-Z</option>
+                    </select>
+                </div>
+
+                <button id="reset-filters" class="reset-filters-btn">
+                    <i class="fas fa-redo"></i>
+                    Reset Filters
+                </button>
+            </div>
+
+            <!-- Genre Filters -->
+            <h3>
+                <i class="fas fa-filter"></i>
+                Filter by Genre
+            </h3>
+            <div class="category-buttons" id="category-buttons">
+                <!-- Populated by JS with counts -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Grid -->
+    <section class="movies">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="movies-title">Upcoming Movies</h2>
+                <p id="movie-count" class="movie-count"></p>
+            </div>
+
+            <!-- Loading Skeleton -->
+            <div id="skeleton-loader" class="skeleton-loader" style="display: none;">
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+            </div>
+
+            <div id="movies-grid" class="movies-grid grid-view">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <div class="empty-state-icon">
+                    <i class="fas fa-film"></i>
+                </div>
+                <h3>No results found</h3>
+                <p>Try different keywords or browse popular content</p>
+                <button onclick="clearSearch()" class="btn-primary">
+                    <i class="fas fa-home"></i>
+                    Browse Movies
+                </button>
+            </div>
+
+            <!-- Load More / Loading -->
+            <div class="load-more-container">
+                <button id="load-more" class="load-more-btn" style="display: none;">
+                    <i class="fas fa-plus-circle"></i>
+                    Load More
+                </button>
+                <div id="loading-more" class="loading-indicator" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Loading more...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Trailer Modal -->
+    <div id="trailer-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="trailer-title">
+        <div class="modal-content">
+            <button class="close" id="close-trailer" aria-label="Close trailer">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 id="trailer-title" class="modal-title"></h3>
+            <div id="trailer-container" class="video-container"></div>
+        </div>
+    </div>
+
+    <!-- Details Modal -->
+    <div id="details-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="details-title">
+        <div class="modal-content-large">
+            <button class="close" id="close-details" aria-label="Close details">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="details-container"></div>
+            
+            <!-- Recommendations -->
+            <div id="recommendations-section" class="recommendations-section">
+                <div class="container">
+                    <h2>
+                        <i class="fas fa-thumbs-up"></i>
+                        You Might Also Like
+                    </h2>
+                    <div id="recommendations-grid" class="recommendations-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Favorites Modal -->
+    <div id="favorites-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="favorites-title">
+        <div class="modal-content-large">
+            <button class="close" id="close-favorites" aria-label="Close favorites">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 id="favorites-title" class="modal-title">
+                <i class="fas fa-heart"></i>
+                My Favorites
+            </h2>
+            <div id="favorites-grid" class="movies-grid"></div>
+            <div id="favorites-empty" class="empty-state" style="display: none;">
+                <div class="empty-state-icon">
+                    <i class="fas fa-heart-broken"></i>
+                </div>
+                <h3>No favorites yet</h3>
+                <p>Start adding movies and shows you love!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Offline Indicator -->
+    <div id="offline-indicator" class="offline-indicator" style="display: none;">
+        <i class="fas fa-wifi"></i>
+        You're offline. Some features may not work.
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- About Project -->
+                <div class="footer-section">
+                    <h3>
+                        <i class="fas fa-info-circle"></i>
+                        About This Project
+                    </h3>
+                    <p>A movie database web application built with vanilla JavaScript, HTML5, and CSS3. Features real-time data from TMDB API, advanced filtering, and a responsive design.</p>
+                    <div class="tech-stack">
+                        <span class="tech-badge">JavaScript</span>
+                        <span class="tech-badge">HTML5</span>
+                        <span class="tech-badge">CSS3</span>
+                        <span class="tech-badge">TMDB API</span>
+                    </div>
+                </div>
+
+                <!-- Developer Info -->
+                <div class="footer-section">
+                    <h3>
+                        <i class="fas fa-user-circle"></i>
+                        Developer
+                    </h3>
+                    <p><strong>David Mbugua</strong></p>
+                    <p>Web Developer</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+                    <div class="contact-links">
+                        <a href="mailto:dmbugua423@gmail.com" aria-label="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://github.com/Kaiz3n-ios" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/david-mbugua-b11319319/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://wa.me/254742906820" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer-section">
+                    <h3>
+                        <i class="fas fa-link"></i>
+                        Projects & Links
+                    </h3>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="https://github.com/Kaiz3n-ios" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-github"></i> GitHub Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://musicaldna.netlify.app/" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-music"></i> Musical DNA Project
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/in/david-mbugua-b11319319/" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-linkedin"></i> LinkedIn Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:dmbugua423@gmail.com">
+                                <i class="fas fa-envelope"></i> Get in Touch
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Features -->
+                <div class="footer-section">
+                    <h3>
+                        <i class="fas fa-check-circle"></i>
+                        Key Features
+                    </h3>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Real-time TMDB API Integration</li>
+                        <li><i class="fas fa-check"></i> Advanced Search & Filters</li>
+                        <li><i class="fas fa-check"></i> Responsive Design</li>
+                        <li><i class="fas fa-check"></i> Favorites System</li>
+                        <li><i class="fas fa-check"></i> Movie Trailers & Details</li>
+                        <li><i class="fas fa-check"></i> Genre Filtering</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>
+                        <i class="fas fa-code"></i>
+                        Built with <i class="fas fa-heart" style="color: #e74c3c;"></i> by 
+                        <strong>David Mbugua</strong> in Nairobi, Kenya
+                    </p>
+                    <p class="footer-disclaimer">
+                        <small>
+                            <i class="fas fa-info-circle"></i>
+                            This product uses the TMDB API but is not endorsed or certified by TMDB. 
+                            This is a portfolio project for educational purposes.
+                        </small>
+                    </p>
+                    <p class="copyright">
+                        © 2025 MovieHub Portfolio Project • 
+                        <a href="https://github.com/Kaiz3n-ios" target="_blank" rel="noopener noreferrer">
+                            View Source Code
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
