@@ -36,7 +36,7 @@ A modern, responsive web application for browsing movies and TV shows using the 
 
 ## 🚀 Live Demo
 
-[View Live Demo](https://your-username.github.io/moviehub)
+[View Live Demo](https://Kaiz3n-ios.github.io/moviehub)
 
 ## 📸 Screenshots
 
