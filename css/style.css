@@ -1220,6 +1220,19 @@ kbd {
     font-family: 'Inter', sans-serif;
 }
 
+.watch-now-btn {
+    background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+    color: white;
+    font-weight: 700;
+    font-size: 1.15rem;
+}
+
+.watch-now-btn:hover {
+    background: linear-gradient(135deg, var(--dark-red) 0%, #8a0508 100%);
+    box-shadow: 0 8px 20px rgba(229, 9, 20, 0.6);
+    transform: translateY(-2px);
+}
+
 .trailer-btn-details {
     background-color: var(--primary-red);
     color: white;

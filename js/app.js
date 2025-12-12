@@ -998,6 +998,9 @@ function displayDetails(item, cast, recommendations, providers, type) {
                 </div>
                 ${providersHTML}
                 <div class="details-actions">
+                    <button class="watch-now-btn" onclick="goToWatch(${item.id}, '${type}', '${title}')">
+                        <i class="fas fa-play-circle"></i> Watch Now
+                    </button>
                     <button class="trailer-btn-details" onclick="closeDetailsAndOpenTrailer(${item.id}, '${type}')">
                         <i class="fas fa-play"></i> Watch Trailer
                     </button>
@@ -1139,4 +1142,16 @@ if ('serviceWorker' in navigator) {
             console.log('Service Worker registration failed');
         });
     });
+}
+
+// ========== GO TO WATCH PAGE ==========
+function goToWatch(id, type, title) {
+    // Close the details modal first
+    closeModal(detailsModal);
+    
+    // Encode the title for URL parameter
+    const encodedTitle = encodeURIComponent(title);
+    
+    // Redirect to the watch page with TMDB ID, type, and title
+    window.location.href = `watch.html?id=${id}&type=${type}&title=${encodedTitle}`;
 }
