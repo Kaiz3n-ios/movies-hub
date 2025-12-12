@@ -1791,3 +1791,18 @@ footer {
         --bg-black: #000000;
     }
 }
+
+
+/* FIX: Ensure details buttons are full width on small screens */
+@media (max-width: 550px) {
+    .details-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .details-actions button {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+}
