@@ -1155,3 +1155,5 @@ function goToWatch(id, type, title) {
     // Redirect to the watch page with TMDB ID, type, and title
     window.location.href = `watch.html?id=${id}&type=${type}&title=${encodedTitle}`;
 }
+
+// Force Vercel cache clear: 2025-12-12-11-55-00
